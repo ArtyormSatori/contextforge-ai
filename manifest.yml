@@ -1,0 +1,75 @@
+app:
+  id: ari:cloud:ecosystem::app/01928374-abcd-7890-a1b2-c3d4e5f60718
+  description: Autonomous Teamwork Graph intelligence and assignable Rovo Agent for Software Teams
+  runtime:
+    name: nodejs22.x
+
+modules:
+  rovo:agent:
+    - key: contextforge-agent
+      name: ContextForge AI
+      description: Autonomous Teamwork Graph agent for software teams
+      prompt: >
+        You are ContextForge AI, an expert software intelligence agent. You analyze Jira issues,
+        Confluence architecture specs, Bitbucket pull requests, and Teamwork Graph associations
+        to provide deep engineering context, blast-radius risk analysis, and solution proposals.
+      conversationStarters:
+        - Analyze the blast radius of this Jira ticket
+        - Find related Confluence specs and Bitbucket PRs
+        - Propose code diff and test verification plan
+      actions:
+        - query-teamwork-context
+        - analyze-blast-radius
+        - propose-solution-diff
+
+  rovo:mcp:
+    - key: contextforge-mcp
+      name: ContextForge MCP
+      tools:
+        - query-teamwork-context
+        - analyze-blast-radius
+        - propose-solution-diff
+
+  action:
+    - key: query-teamwork-context
+      name: Query Teamwork Graph Context
+      description: Fetches connected Jira issues, Confluence specs, and PRs
+      actionVerb: GET
+      function: action-handler
+
+    - key: analyze-blast-radius
+      name: Analyze Blast Radius
+      description: Calculates risk score, affected services, and regressions
+      actionVerb: GET
+      function: action-handler
+
+    - key: propose-solution-diff
+      name: Propose Solution Diff
+      description: Generates recommended code diff and test verification plan
+      actionVerb: GET
+      function: action-handler
+
+  jira:issuePanel:
+    - key: contextforge-panel
+      title: ContextForge Intelligence
+      icon: https://raw.githubusercontent.com/ArtyormSatori/codegeist-2026-contextforge/main/static/icon.svg
+      function: panel-resolver
+
+  webtrigger:
+    - key: mcp-jsonrpc-endpoint
+      function: mcp-webtrigger-handler
+
+  function:
+    - key: action-handler
+      handler: index.actionHandler
+    - key: panel-resolver
+      handler: index.panelResolver
+    - key: mcp-webtrigger-handler
+      handler: index.mcpWebtriggerHandler
+
+permissions:
+  scopes:
+    - read:jira-work
+    - write:jira-work
+    - read:confluence-content.all
+    - storage:app

@@ -1,0 +1,38 @@
+{
+  "name": "contextforge-ai",
+  "version": "1.0.0",
+  "description": "Autonomous Teamwork Graph intelligence and assignable Rovo Agent for Software Teams connecting Jira issues, Confluence specs, Bitbucket PRs, and external coding agents via Atlassian MCP.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "tsc && node --test dist/tests/*.test.js",
+    "lint": "forge lint",
+    "verify": "npm run build && npm test",
+    "validate:manifest": "node -e \"require('./dist/tests/manifestValidation.test.js')\""
+  },
+  "keywords": [
+    "atlassian",
+    "forge",
+    "rovo",
+    "agent",
+    "mcp",
+    "teamwork-graph",
+    "jira",
+    "confluence",
+    "bitbucket",
+    "codegeist-2026"
+  ],
+  "author": "ArtyormSatori <ghostvuong@gmail.com>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@forge/api": "^8.4.0",
+    "@forge/resolver": "^2.0.2"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^22.0.0",
+    "js-yaml": "^5.5.0",
+    "tsx": "^4.23.15",
+    "typescript": "^5.6.3"
+  }
+}

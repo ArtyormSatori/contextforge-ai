@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ContextForge AI - Intelligence Panel</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="app" class="contextforge-container">
+    <!-- Top Bar -->
+    <header class="app-header">
+      <div class="header-brand">
+        <svg class="brand-logo" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="14" stroke="#0052CC" stroke-width="2.5" />
+          <path d="M10 16L16 10L22 16L16 22Z" fill="#0065FF" />
+          <circle cx="16" cy="16" r="3" fill="#FFFFFF" />
+        </svg>
+        <div>
+          <h1 class="brand-title">ContextForge AI</h1>
+          <p class="brand-subtitle">Teamwork Graph • Rovo Agent • Model Context Protocol</p>
+        </div>
+      </div>
+      <div class="header-badges">
+        <span class="badge badge-rovo">@ContextForge Active</span>
+        <span class="badge badge-mcp">MCP 2024-11-05</span>
+        <span id="issue-badge" class="badge badge-neutral">PAY-402</span>
+      </div>
+    </header>
+
+    <!-- Main Grid -->
+    <main class="dashboard-grid">
+      <!-- Left Column: Blast Radius & Graph -->
+      <section class="card blast-radius-card">
+        <div class="card-header">
+          <h2>Blast Radius &amp; Risk Assessment</h2>
+          <span id="risk-pill" class="risk-pill pill-critical">CRITICAL RISK</span>
+        </div>
+        <div class="gauge-container">
+          <div class="score-display">
+            <span id="risk-score" class="score-number">85</span>
+            <span class="score-total">/100</span>
+          </div>
+          <div class="score-meta">
+            <p class="score-desc">High probability of cascading transactional failure under peak load.</p>
+            <div class="progress-bar">
+              <div id="risk-bar" class="progress-fill" style="width: 85%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="services-breakdown">
+          <h3>Directly Impacted Microservices</h3>
+          <div id="services-list" class="services-list">
+            <div class="service-chip tier-1">
+              <span class="service-dot"></span>
+              <strong>payment-gateway</strong>
+              <span class="tag">Tier-1 Core</span>
+            </div>
+            <div class="service-chip tier-1">
+              <span class="service-dot"></span>
+              <strong>order-state-machine</strong>
+              <span class="tag">Tier-1 Core</span>
+            </div>
+            <div class="service-chip tier-1">
+              <span class="service-dot"></span>
+              <strong>database-cluster</strong>
+              <span class="tag">Tier-1 Core</span>
+            </div>
+            <div class="service-chip tier-2">
+              <span class="service-dot"></span>
+              <strong>redis-cache</strong>
+              <span class="tag">Tier-2 Dep</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mitigation-box">
+          <h3>Automated Safety Guardrails</h3>
+          <ul id="mitigations-list">
+            <li>Acquire Redlock distributed advisory lock before transactional order transitions.</li>
+            <li>Enforce database query timeout cap at 1,500ms on write transactions.</li>
+            <li>Schedule production canary deployment restricted to 5% traffic.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Right Column: Interactive Teamwork Graph Map -->
+      <section class="card graph-card">
+        <div class="card-header">
+          <h2>Teamwork Graph Associative Topology</h2>
+          <button id="btn-refresh-graph" class="btn btn-secondary">Refresh Graph</button>
+        </div>
+        <div class="graph-canvas-wrapper">
+          <canvas id="graphCanvas" width="480" height="280"></canvas>
+          <div class="graph-legend">
+            <span><span class="legend-dot dot-jira"></span> Jira Issue</span>
+            <span><span class="legend-dot dot-confluence"></span> Confluence RFC</span>
+            <span><span class="legend-dot dot-bitbucket"></span> Bitbucket PR</span>
+            <span><span class="legend-dot dot-service"></span> Service Node</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Context Dossier & Unified Diff Proposer -->
+    <section class="card solution-card">
+      <div class="card-header">
+        <h2>Connected Specs &amp; Architectural Solution Proposal</h2>
+        <div class="action-buttons">
+          <button id="btn-copy-diff" class="btn btn-secondary">Copy Unified Diff</button>
+          <button id="btn-copy-mcp" class="btn btn-primary">Copy MCP Config for Cursor / Claude</button>
+        </div>
+      </div>
+
+      <div class="dossier-meta-grid">
+        <div class="meta-item">
+          <span class="meta-label">Confluence RFC Specs</span>
+          <span class="meta-value">RFC-44: Distributed Idempotency (ARCH)</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Historical Post-Mortem</span>
+          <span class="meta-value">INC-8821: Payment Gateway Deadlock Outage (OPS)</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Active Competing PRs</span>
+          <span class="meta-value">PR #551 (fix/PAY-402-webhook-deadlock)</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Primary Tech Owner</span>
+          <span class="meta-value">Alex Rivera (Staff Backend Architect)</span>
+        </div>
+      </div>
+
+      <div class="diff-container">
+        <div class="diff-header">
+          <span>src/handlers/stripeWebhook.ts</span>
+          <span class="diff-badge">+16 / -4 lines</span>
+        </div>
+        <pre><code class="diff-code" id="diffCode">
+@@ -48,7 +48,15 @@ export async function handleStripeWebhook(event: StripeEvent) {
+-  await orderStateMachine.transition(orderId, 'PROCESSING');
+-  await database.orders.update(orderId, { status: 'PAID' });
++  const lockKey = `lock:payment:order:${orderId}`;
++  const lock = await redisLock.acquire(lockKey, { ttlMs: 5000, retryCount: 3 });
++  if (!lock) {
++    throw new Error(`Concurrent execution prevented by lock ${lockKey}`);
++  }
++  try {
++    await orderStateMachine.transition(orderId, 'PROCESSING');
++    await database.orders.update(orderId, { status: 'PAID' });
++  } finally {
++    await lock.release();
++  }
+        </code></pre>
+      </div>
+    </section>
+
+    <!-- MCP External Agent Bridge Console -->
+    <section class="card agent-bridge-card">
+      <div class="card-header">
+        <h2>External Coding Agent Bridge (Model Context Protocol)</h2>
+        <span class="mcp-status-dot online">JSON-RPC 2.0 Webtrigger Online</span>
+      </div>
+      <p class="agent-bridge-desc">
+        External AI agents running in <strong>Cursor</strong>, <strong>Claude Code</strong>, <strong>Windsurf</strong>, or <strong>Hermes</strong> connect directly to this issue via the ContextForge MCP server.
+      </p>
+      <div class="terminal-box">
+        <div class="terminal-bar">
+          <span class="term-circle red"></span>
+          <span class="term-circle yellow"></span>
+          <span class="term-circle green"></span>
+          <span class="term-title">mcp-server-live-telemetry</span>
+        </div>
+        <pre class="terminal-body"><code id="terminalLog">
+[INFO] MCP Server initialized protocolVersion=2024-11-05 capabilities={tools: 5}
+[RECV] tools/call calculate_blast_radius issueKey=PAY-402 client=Claude-Code-Agent
+[SEND] Result: riskLevel=CRITICAL score=85 affectedServices=4
+[RECV] tools/call propose_solution_diff issueKey=PAY-402
+[SEND] Result: Unified diff generated for src/handlers/stripeWebhook.ts
+[RECV] tools/call post_agent_verdict verdict=VERIFIED agent="Claude Code (Anthropic)"
+[INFO] Verdict recorded into Jira Issue Entity Properties (contextforge.audit.verdict)
+        </code></pre>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <span>Built for Atlassian Codegeist 2026: Build with context. Ship with confidence.</span>
+      <span>Category: Apps for Software Teams • Atlassian Rovo Agent • Model Context Protocol</span>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
